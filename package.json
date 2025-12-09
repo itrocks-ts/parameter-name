@@ -5,11 +5,11 @@
 	},
 	"dependencies": {
 		"@itrocks/class-type": "latest",
-		"typescript": "~5.8"
+		"typescript": "~5.9"
 	},
 	"description": "Runtime parameter name reflection from TypeScript declaration files",
 	"devDependencies": {
-		"@types/node": "^22.10"
+		"@types/node": "^24.10"
 	},
 	"engines": {
 		"node": ">=18"
@@ -52,5 +52,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/parameter-name.d.ts",
-	"version": "0.0.2"
+	"version": "0.0.3"
 }
