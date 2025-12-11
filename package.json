@@ -29,8 +29,11 @@
 	"keywords": [
 		"backend",
 		"constructor",
+		"decorator",
+		"dts",
 		"function",
 		"it.rocks",
+		"metadata",
 		"method",
 		"name",
 		"parameter",
@@ -38,6 +41,7 @@
 		"parse",
 		"parsing",
 		"reflection",
+		"typescript",
 		"utility"
 	],
 	"license": "ISC",
@@ -52,5 +56,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/parameter-name.d.ts",
-	"version": "0.0.3"
+	"version": "0.0.4"
 }
