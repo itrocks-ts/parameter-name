@@ -5,24 +5,20 @@
 	},
 	"dependencies": {
 		"@itrocks/class-type": "latest",
-		"typescript": "~6.0"
+		"typescript": "^6.0"
 	},
 	"description": "Runtime parameter name reflection from TypeScript declaration files",
 	"devDependencies": {
 		"@types/node": "^24.10"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=24"
 	},
-	"exports": {
-		"import": "./esm/parameter-name.js",
-		"require": "./cjs/parameter-name.js"
-	},
+	"exports": "./cjs/parameter-name.js",
 	"files": [
 		"LICENSE",
 		"README.md",
-		"cjs/*",
-		"esm/*",
+		"cjs",
 		"!*.map"
 	],
 	"homepage": "https://it.rocks",
@@ -51,10 +47,7 @@
 		"url": "git+https://github.com/itrocks-ts/parameter-name.git"
 	},
 	"scripts": {
-		"build": "npm run build:cjs && npm run build:esm",
-		"build:cjs": "tsc -p tsconfig.cjs.json",
-		"build:esm": "tsc -p tsconfig.esm.json"
+		"build": "tsc"
 	},
-	"types": "./esm/parameter-name.d.ts",
-	"version": "0.0.5"
+	"version": "0.1.0"
 }
