@@ -1,38 +1,56 @@
-import { readFileSync } from 'node:fs'
-import ts               from 'typescript'
+import { isClassDeclaration }       from 'typescript/unstable/ast'
+import { isConstructorDeclaration } from 'typescript/unstable/ast'
+import { isIdentifier }             from 'typescript/unstable/ast'
+import { isMethodDeclaration }      from 'typescript/unstable/ast'
+import { type MethodDeclaration }   from 'typescript/unstable/ast'
+import { type Node }                from 'typescript/unstable/ast'
+import { API }                      from 'typescript/unstable/sync'
 
 export function parameterNamesFromFile(fileName: string, className: string, methodName: string): string[]
 {
 	const isMethod = (methodName === 'constructor')
-		? ts.isConstructorDeclaration
-		: function (node: ts.Node): node is ts.MethodDeclaration {
-			return ts.isMethodDeclaration(node) && node.name && ts.isIdentifier(node.name) && (node.name.text === methodName)
+		? isConstructorDeclaration
+		: function (node: Node): node is MethodDeclaration {
+			return isMethodDeclaration(node) && isIdentifier(node.name) && (node.name.text === methodName)
 		}
-	const content    = readFileSync(fileName.substring(0, fileName.lastIndexOf('.')) + '.d.ts', 'utf8')
-	const sourceFile = ts.createSourceFile(fileName, content, ts.ScriptTarget.Latest, true)
+	const declarationFileName = fileName.substring(0, fileName.lastIndexOf('.')) + '.d.ts'
+	const api                 = new API()
 
-	let propertyNames = new Array<string>
+	try {
+		const snapshot   = api.updateSnapshot({ openFiles: [declarationFileName] })
+		const project    = snapshot.getDefaultProjectForFile(declarationFileName)
+		const sourceFile = project?.program.getSourceFile(declarationFileName)
 
-	function searchClass(node: ts.Node)
-	{
-		if (
-			ts.isClassDeclaration(node)
-			&& node.name
-			&& ts.isIdentifier(node.name)
-			&& (node.name.text === className)
-		) {
-			return ts.forEachChild(node, searchMethod)
+		if (!sourceFile) {
+			return []
 		}
-		ts.forEachChild(node, searchClass)
+
+		let propertyNames = new Array<string>
+
+		function searchClass(node: Node)
+		{
+			if (
+				isClassDeclaration(node)
+				&& node.name
+				&& isIdentifier(node.name)
+				&& (node.name.text === className)
+			) {
+				return node.forEachChild(searchMethod)
+			}
+			node.forEachChild(searchClass)
+		}
+
+		function searchMethod(node: Node)
+		{
+			if (isMethod(node)) {
+				propertyNames = node.parameters.map(parameter => isIdentifier(parameter.name) ? parameter.name.text : '')
+			}
+		}
+
+		searchClass(sourceFile)
+		return propertyNames
 	}
-
-	function searchMethod(node: ts.Node)
-	{
-		if (isMethod(node)) {
-			propertyNames = node.parameters.map(parameter => ts.isIdentifier(parameter.name) ? parameter.name.text : '')
-		}
+	finally {
+		api.close()
 	}
-
-	searchClass(sourceFile)
-	return propertyNames
 }

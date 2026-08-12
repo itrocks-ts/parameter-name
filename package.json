@@ -5,7 +5,7 @@
 	},
 	"dependencies": {
 		"@itrocks/class-type": "latest",
-		"typescript": "^6.0"
+		"typescript": "^7.0"
 	},
 	"description": "Runtime parameter name reflection from TypeScript declaration files",
 	"devDependencies": {
@@ -47,7 +47,9 @@
 		"url": "git+https://github.com/itrocks-ts/parameter-name.git"
 	},
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"pretest": "npm run build",
+		"test": "node --test"
 	},
-	"version": "0.1.0"
+	"version": "0.2.0"
 }
