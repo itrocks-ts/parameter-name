@@ -4,12 +4,13 @@
 		"email": "baptiste@pillot.fr"
 	},
 	"dependencies": {
-		"@itrocks/class-type": "latest",
-		"typescript": "^7.0"
+		"@itrocks/ast": "latest",
+		"@itrocks/class-type": "latest"
 	},
 	"description": "Runtime parameter name reflection from TypeScript declaration files",
 	"devDependencies": {
-		"@types/node": "^24.10"
+		"@types/node": "^24.10",
+		"typescript": "^7.0"
 	},
 	"engines": {
 		"node": ">=24"
@@ -51,5 +52,5 @@
 		"pretest": "npm run build",
 		"test": "node --test"
 	},
-	"version": "0.2.0"
+	"version": "0.3.0"
 }
