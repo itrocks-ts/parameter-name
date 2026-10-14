@@ -4,8 +4,7 @@
 		"email": "baptiste@pillot.fr"
 	},
 	"dependencies": {
-		"@itrocks/ast": "latest",
-		"@itrocks/class-type": "latest"
+		"@itrocks/ast": "latest"
 	},
 	"description": "Runtime parameter name reflection from TypeScript declaration files",
 	"devDependencies": {
@@ -52,5 +51,5 @@
 		"pretest": "npm run build",
 		"test": "node --test"
 	},
-	"version": "0.3.0"
+	"version": "0.3.1"
 }
